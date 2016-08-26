@@ -33,9 +33,11 @@ function handleDownload(content) {
 }
 
 function handleWorkbook(workbook) {
-  var first_sheet_name = workbook.SheetNames[0];
-  var sheet = workbook.Sheets[first_sheet_name];
-  var json = XLSX.utils.sheet_to_json(sheet);
+  var json = {};
+  workbook.SheetNames.forEach(function(sheetName){
+    var sheet = workbook.Sheets[sheetName];
+    json[sheetName] = XLSX.utils.sheet_to_json(sheet);
+  });
   console.log(json);
   var content = JSON.stringify(json, null, 2);
   document.querySelector("#output").innerText = content;
